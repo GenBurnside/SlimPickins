@@ -1,7 +1,7 @@
 var irc = require('irc');
 var request = require('request');
 
-var client = new irc.Client(process.env.IRC_SERVER_HOST, 'Slim', {
+var client = new irc.Client(process.env.IRC_SERVER_HOST, 'YoMomma', {
   channels: ['#funhole']
 });
 
@@ -10,11 +10,16 @@ client.addListener('message', function(from, to, message) {
 });
 
 client.addListener('message', function(from, to, message) {
-  if(message == 'BTC') {
-    request("https://bitpay.com/api/rates/usd", function(err, response, body) {
-      var res = JSON.parse(body);
-      client.say('#funhole', '$' + res.rate);
-    });
+  switch (message) {
+    case 'BTC':
+      request("https://bitpay.com/api/rates/usd", function(err, response, body) {
+        var res = JSON.parse(body);
+        client.say('#funhole', '$' + res.rate);
+      });
+      break;
+    case 'DOGE':
+      client.say('#funhole', 'TO THE MOON!');
+      break;
   }
 });
 
